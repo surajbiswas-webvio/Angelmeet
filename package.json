@@ -1,0 +1,19 @@
+{
+  "name": "angelmeet-e2e-automation",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:headed": "playwright test --headed",
+    "report:html": "playwright show-report",
+    "report:allure": "allure generate allure-results --clean -o allure-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "allure-commandline": "^2.34.0",
+    "allure-playwright": "^3.3.1",
+    "dotenv": "^16.6.1",
+    "typescript": "^5.9.3"
+  }
+}
