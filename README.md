@@ -1,43 +1,42 @@
 # AngelMeet Playwright E2E Framework
 
-Production-oriented Playwright + TypeScript starter framework for https://meeting.webvio.in/.
+This repository has been migrated from a JavaScript/TypeScript Playwright setup to a Python-based pytest + Playwright framework for https://meeting.webvio.in/.
+
+## What changed
+
+- Replaced the Node/TypeScript Playwright runner with Python and pytest.
+- Preserved the main browser journeys in page-object style classes under the pages package.
+- Added pytest fixtures in conftest.py for authenticated browser setup and reusable page objects.
+- Integrated Allure reporting to collect results and attachments under reports/.
 
 ## Included coverage
 
-Implemented, non-destructive smoke checks cover authenticated dashboard controls, empty join validation, meeting creation choices, navigation to All Meetings and AI Notetaker, profile visibility, and responsive dashboard readiness. The accompanying test catalogue identifies the next modules to automate: scheduling, meeting-room media, chat, participants, screen share, whiteboard, recording, waiting room, and security cases.
+The migrated suite covers authenticated dashboard controls, blank meeting-join validation, instant/scheduled meeting choices, navigation to All Meetings and AI Notetaker, profile visibility, and responsive dashboard checks.
 
-## Setup and execution
+## Python setup
 
-1. Copy `.env.example` to `.env` and set a dedicated test account.
-2. Run `npm ci`.
-3. Run `npx playwright install`.
-4. Run `npm test` or `npm run test:smoke`.
-5. View `playwright-report/index.html`; run `npm run report:allure` after installing the Allure CLI output dependencies.
+1. Create and activate a virtual environment.
+   - `py -3 -m venv .venv`
+   - `.venv\Scripts\Activate.ps1`
+2. Install dependencies.
+   - `py -3 -m pip install -r requirements.txt`
+3. Install Playwright browsers.
+   - `py -3 -m playwright install chromium`
+4. Copy `.env.example` to `.env` and set your test account values.
 
-The framework reads all secrets from environment variables. Do not commit `.env` or `.auth/user.json`.
+## Running tests
 
-## Architecture
+- Run all tests: `pytest`
+- Run smoke tests only: `pytest -m smoke`
+- Run a single test file: `pytest tests/test_dashboard.py`
 
-| Location | Responsibility |
-| --- | --- |
-| `tests/` | Business-facing, independently runnable test specifications. |
-| `pages/` | Page Object Model actions and assertions for application workflows. |
-| `fixtures/` | Shared typed page objects and authenticated test context. |
-| `locators/` | Centralized stable locator contracts. |
-| `config/` | Environment configuration and guarded secret access. |
-| `helpers/` | Reusable test data such as malformed URLs and viewports. |
-| `utilities/` | Cross-cutting utilities including execution attachments. |
-| `outputs/angelmeet-qa/` | QA test catalogue and Excel verification preview. |
-| `.github/workflows/` | CI pipeline and report artifact publishing. |
+## Reporting
 
-## Reliability decisions
+- Run tests with Allure output enabled (default): `pytest`
+- Generate the report locally: `allure serve reports/allure-results`
 
-- No hard-coded waits: Playwright assertions provide state-aware synchronization.
-- Automatic screenshots, video, and trace capture are retained on failure.
-- Retries are enabled (two in CI) and projects are parallel by default.
-- Login runs as a setup project and produces isolated storage state for browser projects.
-- WebRTC flows should use two isolated browser contexts plus Chromium fake media flags in CI. Browser permission prompts cannot be operated as native UI; grant permissions through Playwright context configuration and use synthetic media.
+## Migration summary
 
-## Scalability recommendations
-
-Request `data-testid` attributes for meeting-room controls, room state, toasts, and schedule form fields before deep WebRTC automation. Provision an API/fixture-backed disposable meeting and two test identities so create, join, waiting-room, chat, and screen-sharing tests can be repeatable without polluting production data. Add API contract tests and axe accessibility scans once test-environment endpoints are available.
+- Converted 3 Python test modules and 7 page-object modules.
+- Preserved the core auth flow, dashboard checks, navigation checks, and responsive viewport checks.
+- Remaining work may include aligning selectors with the live application if the UI changes.
