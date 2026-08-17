@@ -9,7 +9,7 @@ from pages.login_page import LoginPage
 from pages.meetings_page import MeetingsPage
 from pages.notetaker_page import NotetakerPage
 from pages.profile_page import ProfilePage
-from utils.env import get_base_url, get_email, get_password
+from utils.env import get_base_url, get_email, get_password, has_test_credentials
 
 load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env", override=False)
 
@@ -23,7 +23,7 @@ def base_url() -> str:
 def authenticated_page(page, base_url):
     email = get_email()
     password = get_password()
-    if not email or not password:
+    if not has_test_credentials():
         pytest.skip("E2E_EMAIL and E2E_PASSWORD must be set to run browser tests")
 
     login_page = LoginPage(page, base_url)

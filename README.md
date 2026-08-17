@@ -29,6 +29,10 @@ The migrated suite covers authenticated dashboard controls, blank meeting-join v
 - Run all tests: `pytest`
 - Run smoke tests only: `pytest -m smoke`
 - Run a single test file: `pytest tests/test_dashboard.py`
+- Run headed mode: `pytest --headed`
+- Run a single headed test: `pytest tests/test_dashboard.py -k "am_006" --headed`
+
+Before running browser tests, create a local `.env` file from `.env.example` and fill in valid `E2E_EMAIL` and `E2E_PASSWORD` values.
 
 ## Reporting
 
