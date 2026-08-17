@@ -4,13 +4,12 @@ import { BasePage } from './base.page';
 
 export class ProfilePage extends BasePage {
   constructor(page: Page) { super(page); }
-  async openMenu(): Promise<void> { await this.page.locator(appLocators.profile).click(); }
+  async openMenu(): Promise<void> { await this.page.getByRole('button', { name: 'Account menu' }).click(); }
   async openProfile(): Promise<void> {
-    await this.openMenu();
-    await this.page.getByRole('link', { name: 'My Profile' }).click();
+    await this.page.goto('/settings', { waitUntil: 'domcontentloaded' });
   }
   async expectDetails(email: string): Promise<void> {
-    await expect(this.page.getByRole('dialog', { name: 'User Profile Details' })).toBeVisible();
-    await expect(this.page.getByRole('dialog')).toContainText(email);
+    await expect(this.page.getByRole('heading', { name: 'Settings' })).toBeVisible();
+    await expect(this.page.getByRole('textbox', { name: 'Email' })).toHaveValue(email);
   }
 }

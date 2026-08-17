@@ -7,3 +7,4 @@ screenshots/
 videos/
 traces/
 .env
+.auth/

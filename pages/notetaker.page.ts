@@ -3,9 +3,9 @@ import { BasePage } from './base.page';
 
 export class NotetakerPage extends BasePage {
   constructor(page: Page) { super(page); }
-  async open(): Promise<void> { await this.page.goto('/notetaker-dashboard'); }
+  async open(): Promise<void> { await this.page.goto('/ai-notes', { waitUntil: 'domcontentloaded' }); }
   async expectReady(): Promise<void> {
-    await expect(this.page.getByRole('heading', { name: 'Meeting Notes & Summaries' })).toBeVisible();
-    await expect(this.page.getByRole('searchbox', { name: 'Search meetings...' })).toBeVisible();
+    await expect(this.page.getByRole('heading', { name: 'Notes & Recordings' })).toBeVisible();
+    await expect(this.page.getByRole('button', { name: 'Ask AI' })).toBeVisible();
   }
 }

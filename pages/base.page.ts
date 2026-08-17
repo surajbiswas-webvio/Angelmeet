@@ -6,4 +6,8 @@ export abstract class BasePage {
   protected async expectVisible(locator: Locator): Promise<void> {
     await expect(locator).toBeVisible();
   }
+
+  protected async open(path: string): Promise<void> {
+    await this.page.goto(path, { waitUntil: 'domcontentloaded' });
+  }
 }

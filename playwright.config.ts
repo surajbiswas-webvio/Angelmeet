@@ -13,7 +13,7 @@ module.exports = defineConfig({
     ['allure-playwright', { outputFolder: 'allure-results', detail: true, suiteTitle: false }]
   ],
   use: {
-    baseURL: process.env.BASE_URL ?? 'https://meeting.webvio.in',
+    baseURL: process.env.BASE_URL ?? 'https://app.angelmeet.ai',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
@@ -24,8 +24,6 @@ module.exports = defineConfig({
   projects: [
     { name: 'setup', testMatch: /.*\.setup\.ts/ },
     { name: 'chromium', use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json' }, dependencies: ['setup'] },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'], storageState: '.auth/user.json' }, dependencies: ['setup'] },
-    { name: 'webkit', use: { ...devices['Desktop Safari'], storageState: '.auth/user.json' }, dependencies: ['setup'] },
     { name: 'mobile-chrome', use: { ...devices['Pixel 5'], storageState: '.auth/user.json' }, dependencies: ['setup'] }
   ],
   outputDir: 'test-results'

@@ -4,10 +4,10 @@ import { BasePage } from './base.page';
 
 export class MeetingsPage extends BasePage {
   constructor(page: Page) { super(page); }
-  async open(): Promise<void> { await this.page.goto('/conference-view-list'); }
+  async open(): Promise<void> { await this.page.goto('/meetings', { waitUntil: 'domcontentloaded' }); }
   async expectReady(): Promise<void> {
-    await expect(this.page.getByRole('heading', { name: 'Meeting List View' })).toBeVisible();
-    await expect(this.page.getByRole('searchbox', { name: 'Search meetings...' })).toBeVisible();
+    await expect(this.page.getByRole('heading', { name: 'Meetings' })).toBeVisible();
+    await expect(this.page.getByPlaceholder('Search meetings…')).toBeVisible();
   }
-  async navigateFromHeader(): Promise<void> { await this.page.locator(appLocators.allMeetings).click(); }
+  async search(query: string): Promise<void> { await this.page.getByPlaceholder('Search meetings…').fill(query); }
 }

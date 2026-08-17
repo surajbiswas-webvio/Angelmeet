@@ -1,43 +1,36 @@
 # AngelMeet Playwright E2E Framework
 
-This repository has been migrated from a JavaScript/TypeScript Playwright setup to a Python-based pytest + Playwright framework for https://meeting.webvio.in/.
+This repository's supported CI runner is the TypeScript Playwright framework for https://app.angelmeet.ai/.
 
 ## What changed
 
-- Replaced the Node/TypeScript Playwright runner with Python and pytest.
-- Preserved the main browser journeys in page-object style classes under the pages package.
-- Added pytest fixtures in conftest.py for authenticated browser setup and reusable page objects.
-- Integrated Allure reporting to collect results and attachments under reports/.
+- Uses Playwright projects, authenticated storage state, page objects, and environment-based credentials.
+- Retains HTML and Allure reporting, screenshots, videos, and traces on failure.
+- The Python files are a legacy duplicate suite and are not part of CI; see `AUTOMATION_AUDIT.md` before removing them.
 
 ## Included coverage
 
 The migrated suite covers authenticated dashboard controls, blank meeting-join validation, instant/scheduled meeting choices, navigation to All Meetings and AI Notetaker, profile visibility, and responsive dashboard checks.
 
-## Python setup
+## Playwright setup
 
-1. Create and activate a virtual environment.
-   - `py -3 -m venv .venv`
-   - `.venv\Scripts\Activate.ps1`
-2. Install dependencies.
-   - `py -3 -m pip install -r requirements.txt`
-3. Install Playwright browsers.
-   - `py -3 -m playwright install chromium`
-4. Copy `.env.example` to `.env` and set your test account values.
+1. Install dependencies: `npm install`.
+2. Install Playwright browsers: `npx playwright install chromium`.
+3. Copy `.env.example` to `.env` and set your test account values.
 
 ## Running tests
 
-- Run all tests: `pytest`
-- Run smoke tests only: `pytest -m smoke`
-- Run a single test file: `pytest tests/test_dashboard.py`
-- Run headed mode: `pytest --headed`
-- Run a single headed test: `pytest tests/test_dashboard.py -k "am_006" --headed`
+- Run all tests: `npm test`
+- Run smoke tests only: `npm run test:smoke`
+- Run a single test file: `npx playwright test tests/dashboard.spec.ts`
+- Run headed mode: `npm run test:headed`
 
 Before running browser tests, create a local `.env` file from `.env.example` and fill in valid `E2E_EMAIL` and `E2E_PASSWORD` values.
 
 ## Reporting
 
-- Run tests with Allure output enabled (default): `pytest`
-- Generate the report locally: `allure serve reports/allure-results`
+- Generate the HTML report: `npm run report:html`
+- Generate Allure: `npm run report:allure`
 
 ## Migration summary
 
