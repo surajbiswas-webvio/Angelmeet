@@ -8,3 +8,15 @@ videos/
 traces/
 .env
 .auth/
+.venv/
+venv/
+*.pyc
+__pycache__/
+.pytest_cache/
+*.log
+.DS_Store
+.idea/
+.vscode/
+*.egg-info/
+dist/
+build/
