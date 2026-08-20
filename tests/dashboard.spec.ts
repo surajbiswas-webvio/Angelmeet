@@ -1,9 +1,7 @@
 import { test, expect } from '../fixtures/auth.fixture';
-import { logStep } from '../utilities/logger';
 
 test.describe('Dashboard @smoke', () => {
-  test('AM-006 shows authenticated dashboard controls', async ({ dashboard }, testInfo) => {
-    await logStep(testInfo, 'Opening authenticated dashboard');
+  test('AM-006 shows authenticated dashboard controls', async ({ dashboard }) => {
     await dashboard.open();
     await dashboard.expectReady();
   });

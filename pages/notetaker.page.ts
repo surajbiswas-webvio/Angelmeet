@@ -9,3 +9,4 @@ export class NotetakerPage extends BasePage {
     await expect(this.page.getByRole('button', { name: 'Ask AI' })).toBeVisible();
   }
 }
+

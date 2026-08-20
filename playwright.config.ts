@@ -1,7 +1,9 @@
-const { defineConfig, devices } = require('@playwright/test');
-require('dotenv').config();
+import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
 
-module.exports = defineConfig({
+dotenv.config();
+
+export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -22,9 +24,26 @@ module.exports = defineConfig({
     testIdAttribute: 'data-testid'
   },
   projects: [
-    { name: 'setup', testMatch: /.*\.setup\.ts/ },
-    { name: 'chromium', use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json' }, dependencies: ['setup'] },
-    { name: 'mobile-chrome', use: { ...devices['Pixel 5'], storageState: '.auth/user.json' }, dependencies: ['setup'] }
+    { name: 'setup', testMatch: /auth\.setup\.ts$/ },
+    { name: 'admin-setup', testMatch: /admin[/\\]admin-setup\.ts$/, use: { baseURL: process.env.ADMIN_URL ?? 'https://admin.angelmeet.ai' } },
+    {
+      name: 'chromium',
+      testMatch: /^(?!.*admin).*.spec\.ts$/,
+      use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json' },
+      dependencies: ['setup']
+    },
+    {
+      name: 'mobile-chrome',
+      testMatch: /^(?!.*admin).*.spec\.ts$/,
+      use: { ...devices['Pixel 5'], storageState: '.auth/user.json' },
+      dependencies: ['setup']
+    },
+    {
+      name: 'admin',
+      testMatch: /admin[/\\]index\.spec\.ts$/,
+      use: { ...devices['Desktop Chrome'], storageState: '.auth/admin.json', baseURL: process.env.ADMIN_URL ?? 'https://admin.angelmeet.ai' },
+      dependencies: ['admin-setup']
+    }
   ],
   outputDir: 'test-results'
 });
