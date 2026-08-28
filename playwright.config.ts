@@ -38,6 +38,18 @@ export default defineConfig({
       dependencies: ['setup']
     },
     {
+      name: 'firefox',
+      testMatch: /^(?!.*admin).*.spec\.ts$/,
+      use: { ...devices['Desktop Firefox'], storageState: '.auth/user.json' },
+      dependencies: ['setup']
+    },
+    {
+      name: 'webkit',
+      testMatch: /^(?!.*admin).*.spec\.ts$/,
+      use: { ...devices['Desktop Safari'], storageState: '.auth/user.json' },
+      dependencies: ['setup']
+    },
+    {
       name: 'admin',
       testMatch: /admin[/\\]index\.spec\.ts$/,
       use: { ...devices['Desktop Chrome'], storageState: '.auth/admin.json', baseURL: env.adminUrl },

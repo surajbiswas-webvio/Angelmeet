@@ -6,12 +6,13 @@
     "test": "playwright test",
     "test:smoke": "playwright test --grep @smoke",
     "test:headed": "playwright test --headed",
+    "test:cross-browser": "playwright test --project=chromium --project=firefox --project=webkit",
     "report:html": "playwright show-report",
     "report:allure": "allure generate allure-results --clean -o allure-report"
   },
   "devDependencies": {
     "@playwright/test": "1.56.1",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.13.3",
     "allure-commandline": "^2.34.0",
     "allure-playwright": "^3.3.1",
     "dotenv": "^16.6.1",

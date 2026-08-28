@@ -15,7 +15,7 @@ The migrated suite covers authenticated dashboard controls, blank meeting-join v
 ## TypeScript Playwright setup
 
 1. Install dependencies: `npm install`.
-2. Install Playwright browsers: `npx playwright install chromium`.
+2. Install Playwright browsers: `npx playwright install chromium firefox webkit`.
 3. Copy `.env.example` to `.env` and set your test account values.
 
 ## Running tests
@@ -24,6 +24,7 @@ The migrated suite covers authenticated dashboard controls, blank meeting-join v
 - Run smoke tests only: `npm run test:smoke`
 - Run a single test file: `npx playwright test tests/dashboard.spec.ts`
 - Run headed mode: `npm run test:headed`
+- Run Chromium, Firefox, and WebKit: `npm run test:cross-browser`
 
 Transient Playwright artifacts are written to the system temporary directory by default to avoid file-locking issues when the repository is stored in OneDrive. Set `PLAYWRIGHT_OUTPUT_DIR` to use a custom location.
 
@@ -32,7 +33,7 @@ Before running browser tests, create a local `.env` file from `.env.example` and
 ## Python Playwright setup
 
 1. Install dependencies: `python -m pip install -r requirements.txt`.
-2. Install browsers: `python -m playwright install chromium`.
+2. Install browsers: `python -m playwright install chromium firefox webkit`.
 3. Use the same `.env` values described above.
 
 ## Python test commands
