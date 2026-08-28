@@ -1,10 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { env } from './config/env';
 
 export default defineConfig({
-  testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
@@ -15,7 +14,7 @@ export default defineConfig({
     ['allure-playwright', { outputFolder: 'allure-results', detail: true, suiteTitle: false }]
   ],
   use: {
-    baseURL: process.env.BASE_URL ?? 'https://app.angelmeet.ai',
+    baseURL: env.baseUrl,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
@@ -25,7 +24,7 @@ export default defineConfig({
   },
   projects: [
     { name: 'setup', testMatch: /auth\.setup\.ts$/ },
-    { name: 'admin-setup', testMatch: /admin[/\\]admin-setup\.ts$/, use: { baseURL: process.env.ADMIN_URL ?? 'https://admin.angelmeet.ai' } },
+    { name: 'admin-setup', testMatch: /admin[/\\]admin-setup\.ts$/, use: { baseURL: env.adminUrl } },
     {
       name: 'chromium',
       testMatch: /^(?!.*admin).*.spec\.ts$/,
@@ -41,9 +40,9 @@ export default defineConfig({
     {
       name: 'admin',
       testMatch: /admin[/\\]index\.spec\.ts$/,
-      use: { ...devices['Desktop Chrome'], storageState: '.auth/admin.json', baseURL: process.env.ADMIN_URL ?? 'https://admin.angelmeet.ai' },
+      use: { ...devices['Desktop Chrome'], storageState: '.auth/admin.json', baseURL: env.adminUrl },
       dependencies: ['admin-setup']
     }
   ],
-  outputDir: 'test-results'
+  outputDir: process.env.PLAYWRIGHT_OUTPUT_DIR ?? join(tmpdir(), 'angelmeet-e2e-test-results')
 });

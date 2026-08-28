@@ -6,7 +6,7 @@ async function openSidebarOnMobile(page: import('@playwright/test').Page) {
     const openMenu = page.getByRole('button', { name: 'Open menu' });
     if (await openMenu.isVisible({ timeout: 2000 }).catch(() => false)) {
       await openMenu.click();
-      await page.waitForTimeout(500);
+      await expect(page.getByRole('link', { name: 'Home' })).toBeVisible();
     }
   }
 }
@@ -77,6 +77,8 @@ test.describe('Navigation & Sidebar', () => {
       { link: 'Calendar', heading: 'Calendar' },
       { link: 'Notes & Recordings', heading: 'Notes & Recordings' },
       { link: 'Webinars', heading: 'Webinars' },
+      { link: 'Usage', heading: 'Usage' },
+      { link: 'Billing', heading: 'Billing' },
       { link: 'Settings', heading: 'Settings' },
     ];
     await page.goto('/home');
@@ -84,7 +86,7 @@ test.describe('Navigation & Sidebar', () => {
     await openSidebarOnMobile(page);
     for (const { link, heading } of routes) {
       await page.getByRole('link', { name: link }).click();
-      await expect(page.getByRole('heading', { name: heading })).toBeVisible();
+      await expect(page.getByRole('heading', { name: heading, exact: true })).toBeVisible();
       await openSidebarOnMobile(page);
     }
   });

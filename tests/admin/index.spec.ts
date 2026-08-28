@@ -24,8 +24,7 @@ admin.describe('Admin Login', () => {
     await page.locator('#email').fill('invalid@admin.com');
     await page.locator('#password').fill('wrongpassword');
     await page.getByRole('button', { name: 'Sign in' }).click();
-    await page.waitForTimeout(2000);
-    expect(page.url()).toContain('login');
+    await expect(page).toHaveURL(/\/login(?:$|[?#])/);
   });
 });
 
@@ -69,9 +68,8 @@ admin.describe('Admin Navigation', () => {
     admin(`ADMIN-NAV navigates to ${mod}`, async ({ page }) => {
       await waitForDashboard(page);
       await page.getByRole('button', { name: mod }).click();
-      await page.waitForTimeout(1000);
-      const pageText = await page.locator('main').innerText().catch(() => '');
-      expect(pageText.length).toBeGreaterThan(0);
+      await expect(page.locator('main')).toBeVisible();
+      await expect(page.locator('main')).not.toBeEmpty();
     });
   }
 });

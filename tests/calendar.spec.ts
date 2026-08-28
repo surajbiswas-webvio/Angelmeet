@@ -28,7 +28,7 @@ test.describe('Calendar', () => {
 
   test('AM-C05 shows schedule button', async ({ page }) => {
     await page.goto('/calendar');
-    await expect(page.getByRole('button', { name: 'Schedule' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Schedule', exact: true })).toBeVisible();
   });
 
   test('AM-C06 navigates to previous month', async ({ page }) => {
