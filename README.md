@@ -22,6 +22,7 @@ The migrated suite covers authenticated dashboard controls, blank meeting-join v
 
 - Run all tests: `npm test`
 - Run smoke tests only: `npm run test:smoke`
+- Run the interactive UI runner: `npm run test:ui`
 - Run a single test file: `npx playwright test tests/dashboard.spec.ts`
 - Run headed mode: `npm run test:headed`
 - Run Chromium, Firefox, and WebKit: `npm run test:cross-browser`

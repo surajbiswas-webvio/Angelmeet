@@ -5,6 +5,7 @@
   "scripts": {
     "test": "playwright test",
     "test:smoke": "playwright test --grep @smoke",
+    "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
     "test:cross-browser": "playwright test --project=chromium --project=firefox --project=webkit",
     "report:html": "playwright show-report",
