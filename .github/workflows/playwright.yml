@@ -5,12 +5,12 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     env:
-      BASE_URL: ${{ secrets.BASE_URL }}
-      E2E_EMAIL: ${{ secrets.E2E_EMAIL }}
-      E2E_PASSWORD: ${{ secrets.E2E_PASSWORD }}
-      ADMIN_URL: ${{ secrets.ADMIN_URL }}
-      ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
-      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      BASE_URL: https://app.angelmeet.ai
+      E2E_EMAIL: avi100147@gmail.com
+      E2E_PASSWORD: $uper@dmin4MYadmin
+      ADMIN_URL: https://admin.angelmeet.ai
+      ADMIN_EMAIL: avi100147@gmail.com
+      ADMIN_PASSWORD: $uper@dmin4MYadmin
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
