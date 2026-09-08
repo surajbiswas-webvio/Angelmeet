@@ -1,4 +1,14 @@
-node_modules/
+# Python
+.venv/
+venv/
+*.pyc
+__pycache__/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Playwright
 playwright-report/
 test-results/
 allure-results/
@@ -6,17 +16,19 @@ allure-report/
 screenshots/
 videos/
 traces/
+*.zip
+*.webm
+
+# Environment and secrets
 .env
+
+# Auth storage states
 .auth/
-.venv/
-venv/
-*.pyc
-__pycache__/
-.pytest_cache/
+
+# Logs
 *.log
+
+# OS/IDE
 .DS_Store
 .idea/
 .vscode/
-*.egg-info/
-dist/
-build/

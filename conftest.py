@@ -5,7 +5,7 @@ import pytest
 from playwright.sync_api import Browser, Page
 
 from config.env import settings
-from pages_py import DashboardPage, MeetingsPage, NotetakerPage, ProfilePage
+from pages import DashboardPage, MeetingsPage, NotetakerPage, ProfilePage
 
 AUTH_DIR = Path(__file__).parent / ".auth"
 USER_STATE = AUTH_DIR / "user-python.json"
