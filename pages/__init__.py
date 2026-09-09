@@ -11,5 +11,6 @@ from .login_page import LoginPage
 from .meetings_page import MeetingsPage
 from .notetaker_page import NotetakerPage
 from .profile_page import ProfilePage
+from .register_page import RegistrationPage
 
-__all__ = ["BasePage", "DashboardPage", "LoginPage", "MeetingsPage", "NotetakerPage", "ProfilePage"]
+__all__ = ["BasePage", "DashboardPage", "LoginPage", "MeetingsPage", "NotetakerPage", "ProfilePage", "RegistrationPage"]

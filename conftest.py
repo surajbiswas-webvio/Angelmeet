@@ -13,7 +13,7 @@ import pytest
 from playwright.sync_api import Browser, Page
 
 from config.env import settings
-from pages import DashboardPage, MeetingsPage, NotetakerPage, ProfilePage
+from pages import DashboardPage, MeetingsPage, NotetakerPage, ProfilePage, RegistrationPage
 
 # Directory and file paths that cache the authenticated storage states between
 # test runs/sessions so that login is performed only once per session.
@@ -110,3 +110,13 @@ def notetaker(page: Page) -> NotetakerPage:
 def profile(page: Page) -> ProfilePage:
     """Return a ProfilePage instance backed by the current user page."""
     return ProfilePage(page)
+
+
+@pytest.fixture
+def register(page: Page) -> RegistrationPage:
+    """Return a RegistrationPage instance backed by the current user page.
+
+    Registration tests are marked ``unauthenticated`` so the underlying page is
+    created with an empty browser context (the registration page is public).
+    """
+    return RegistrationPage(page)
