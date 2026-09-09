@@ -1,3 +1,5 @@
+"""Navigation tests: sidebar, workspaces, and global app navigation."""
+
 import re
 
 import pytest
@@ -7,6 +9,7 @@ from config.env import settings
 
 
 def open_sidebar_on_mobile(page):
+    # Open the collapsible navigation menu when testing on a mobile viewport.
     if page.viewport_size and page.viewport_size["width"] < 768:
         menu = page.get_by_role("button", name="Open menu")
         if menu.is_visible(timeout=2000):
@@ -15,24 +18,28 @@ def open_sidebar_on_mobile(page):
 
 @pytest.mark.smoke
 def test_am015_opens_all_meetings_workspace(meetings):
+    # Test Scenario: The All Meetings workspace renders.
     meetings.open()
     meetings.expect_ready()
 
 
 @pytest.mark.smoke
 def test_am018_opens_ai_notetaker_workspace(notetaker):
+    # Test Scenario: The AI Notetaker workspace renders.
     notetaker.open()
     notetaker.expect_ready()
 
 
 @pytest.mark.smoke
 def test_am030_displays_profile_details(dashboard, profile):
+    # Test Scenario: The profile/settings page shows the logged-in account email.
     dashboard.open()
     profile.open_profile()
     profile.expect_details(settings.email)
 
 
 def test_am_nav01_sidebar_shows_all_navigation_links(page):
+    # Test Scenario: The sidebar exposes every main navigation link.
     page.goto("/home")
     expect(page.get_by_role("heading", name="Home")).to_be_visible()
     open_sidebar_on_mobile(page)
@@ -41,6 +48,7 @@ def test_am_nav01_sidebar_shows_all_navigation_links(page):
 
 
 def test_am_nav02_workspace_switcher_shows_user_info(page):
+    # Test Scenario: The workspace switcher control is present in the sidebar.
     page.goto("/home")
     expect(page.get_by_role("heading", name="Home")).to_be_visible()
     open_sidebar_on_mobile(page)
@@ -48,6 +56,7 @@ def test_am_nav02_workspace_switcher_shows_user_info(page):
 
 
 def test_am_nav03_sidebar_collapse_works(page):
+    # Test Scenario: The sidebar can be collapsed (desktop only).
     if page.viewport_size and page.viewport_size["width"] < 768:
         pytest.skip("Sidebar collapse is desktop-only")
     page.goto("/home")
@@ -56,12 +65,14 @@ def test_am_nav03_sidebar_collapse_works(page):
 
 
 def test_am_nav04_account_menu_opens(page):
+    # Test Scenario: The account menu opens and exposes a logout item.
     page.goto("/home")
     page.get_by_role("button", name="Account menu").click()
     expect(page.get_by_role("menuitem", name=re.compile("logout|sign out", re.I))).to_be_visible()
 
 
 def test_am_nav05_search_command_palette_opens(page):
+    # Test Scenario: The search command palette dialog opens.
     page.goto("/home")
     search = page.get_by_role("button", name=re.compile("Search meetings"))
     if not search.is_visible(timeout=2000):
@@ -71,6 +82,7 @@ def test_am_nav05_search_command_palette_opens(page):
 
 
 def test_am_nav06_theme_toggle_opens_theme_menu(page):
+    # Test Scenario: The theme toggle exposes Light / Dark / System options.
     page.goto("/home")
     page.get_by_role("button", name="Toggle theme").click()
     for name in ["Light", "Dark", "System"]:
@@ -78,6 +90,7 @@ def test_am_nav06_theme_toggle_opens_theme_menu(page):
 
 
 def test_am_nav07_navigates_via_sidebar(page):
+    # Test Scenario: Clicking each sidebar link navigates to the matching workspace.
     routes = [("Home", "Home"), ("Meetings", "Meetings"), ("Calendar", "Calendar"), ("Notes & Recordings", "Notes & Recordings"), ("Webinars", "Webinars"), ("Usage", "Usage"), ("Billing", "Billing"), ("Settings", "Settings")]
     page.goto("/home")
     for link, heading in routes:
@@ -88,6 +101,7 @@ def test_am_nav07_navigates_via_sidebar(page):
 
 @pytest.mark.smoke
 def test_am_016_searches_meetings(meetings, page):
+    # Test Scenario: Typing in the meetings search box updates the input value.
     meetings.open()
     meetings.expect_ready()
     meetings.search("unlikely-to-match-a-meeting")
@@ -96,6 +110,7 @@ def test_am_016_searches_meetings(meetings, page):
 
 @pytest.mark.smoke
 def test_am_019_opens_calendar_and_notes(page):
+    # Test Scenario: Calendar and Notes & Recordings workspaces both render.
     page.goto("/calendar")
     expect(page.get_by_role("heading", name="Calendar")).to_be_visible()
     page.goto("/ai-notes")
@@ -104,6 +119,7 @@ def test_am_019_opens_calendar_and_notes(page):
 
 @pytest.mark.smoke
 def test_am_020_opens_webinars(page):
+    # Test Scenario: The Webinars workspace renders with its descriptive text.
     page.goto("/webinars")
     expect(page.get_by_role("heading", name="Webinars")).to_be_visible()
     expect(page.get_by_text("attendees watch, panelists present")).to_be_visible()

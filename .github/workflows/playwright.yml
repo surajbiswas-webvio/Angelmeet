@@ -1,3 +1,4 @@
+# CI workflow: install dependencies and run the E2E smoke suite on every push/PR.
 name: AngelMeet E2E
 on: [push, pull_request, workflow_dispatch]
 jobs:
@@ -5,6 +6,7 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     env:
+      # Application settings and credentials consumed by config/env.py at test time.
       BASE_URL: https://app.angelmeet.ai
       E2E_EMAIL: avi100147@gmail.com
       E2E_PASSWORD: $uper@dmin4MYadmin
@@ -12,13 +14,19 @@ jobs:
       ADMIN_EMAIL: avi100147@gmail.com
       ADMIN_PASSWORD: $uper@dmin4MYadmin
     steps:
+      # Check out the repository.
       - uses: actions/checkout@v4
+      # Set up Python with pip caching.
       - uses: actions/setup-python@v5
         with: { python-version: '3.12', cache: pip }
+      # Upgrade pip and install project dependencies.
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -r requirements.txt
+      # Install the Chromium browser required by Playwright.
       - run: python -m playwright install --with-deps chromium
+      # Run only the smoke-marked tests.
       - run: python -m pytest -m smoke
+      # Upload Allure results even when the tests fail.
       - if: always()
         uses: actions/upload-artifact@v4
         with: { name: allure-results, path: allure-results, if-no-files-found: ignore }

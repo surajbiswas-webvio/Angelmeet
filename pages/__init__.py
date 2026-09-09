@@ -1,3 +1,10 @@
+"""Page Object Models (POM) package.
+
+Exposes all page object classes so that downstream modules, fixtures, and
+tests can import them from the ``pages`` package (e.g.
+``from pages import DashboardPage``) without referencing internal paths.
+"""
+
 from .base_page import BasePage
 from .dashboard_page import DashboardPage
 from .login_page import LoginPage

@@ -1,3 +1,5 @@
+"""Settings, Usage, and Billing tests for the user application."""
+
 import re
 
 import pytest
@@ -5,12 +7,14 @@ from playwright.sync_api import expect
 
 
 def test_am_s01_displays_settings_profile(page):
+    # Test Scenario: The Settings page shows Profile section headings.
     page.goto("/settings")
     expect(page.get_by_role("heading", name="Settings")).to_be_visible()
     expect(page.get_by_role("heading", name="Profile")).to_be_visible()
 
 
 def test_am_s02_shows_profile_fields(page):
+    # Test Scenario: The Profile section exposes first/last name and email fields.
     page.goto("/settings")
     first_name = page.get_by_role("textbox", name="First name")
     if not first_name.is_visible():
@@ -20,6 +24,7 @@ def test_am_s02_shows_profile_fields(page):
 
 
 def test_am_s03_shows_settings_navigation(page):
+    # Test Scenario: All Settings navigation sections are listed.
     page.goto("/settings")
     for name in ["Profile", "Preferences", "Connected accounts", "Password", "Help & support", "About"]:
         expect(page.get_by_role("button", name=name)).to_be_visible()
@@ -27,12 +32,14 @@ def test_am_s03_shows_settings_navigation(page):
 
 @pytest.mark.parametrize("section", ["Preferences", "Password"])
 def test_am_s04_s05_navigates_settings_section(page, section):
+    # Test Scenario: Each Settings section navigates to its matching heading.
     page.goto("/settings")
     page.get_by_role("button", name=section).click()
     expect(page.get_by_role("heading", name=section)).to_be_visible()
 
 
 def test_am_s06_shows_change_photo(page):
+    # Test Scenario: The Change photo control is present for the profile.
     page.goto("/settings")
     change_photo = page.get_by_role("button", name="Change photo")
     if not change_photo.is_visible():
@@ -41,31 +48,37 @@ def test_am_s06_shows_change_photo(page):
 
 
 def test_am_s07_shows_save_changes(page):
+    # Test Scenario: A Save changes action is provided on the profile page.
     page.goto("/settings")
     expect(page.get_by_role("button", name="Save changes")).to_be_visible()
 
 
 def test_am_u01_displays_usage(page):
+    # Test Scenario: The Usage workspace renders with its heading.
     page.goto("/usage")
     expect(page.get_by_role("heading", name="Usage", exact=True)).to_be_visible()
 
 
 def test_am_u02_shows_usage_summary(page):
+    # Test Scenario: The Usage page shows the monthly usage summary.
     page.goto("/usage")
     expect(page.get_by_text("Your usage this month")).to_be_visible()
 
 
 def test_am_b01_displays_billing(page):
+    # Test Scenario: The Billing workspace renders with its heading.
     page.goto("/billing")
     expect(page.get_by_role("heading", name="Billing")).to_be_visible()
 
 
 def test_am_b02_shows_invoices(page):
+    # Test Scenario: The Billing page shows the Invoices section.
     page.goto("/billing")
     expect(page.get_by_text("Invoices")).to_be_visible()
 
 
 def test_regression_billing_navigation(page):
+    # Test Scenario: Clicking Billing in the sidebar navigates to the /billing route.
     page.goto("/home")
     page.get_by_role("link", name="Billing").click()
     expect(page).to_have_url(re.compile(r".*/billing"))
